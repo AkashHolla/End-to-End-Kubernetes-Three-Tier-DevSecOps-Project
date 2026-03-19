@@ -3,15 +3,13 @@ kind: Deployment
 metadata:
   name: api
   namespace: three-tier
-  labels:
-    role: api
-    env: demo
 spec:
-  replicas: 2
-  strategy: RollingUpdate
-  rollingUpdate:
-    maxSurge: 1
-    maxUnavailable: 25%
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 25%
   selector:
     matchLabels:
       role: api
@@ -22,46 +20,28 @@ spec:
     spec:
       containers:
         - name: api
-          image: 812200312469.dkr.ecr.us-east-1.amazonaws.com/backend:0
-          imagePullPolicy: Always
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "128Mi"
-            limits:
-              cpu: "500"
-              memory: "512Mi"
-          env:
-            - name: MONGO_CONN_STR
-              value: mongodb://mongodb-svc:27017/todo?directConnection=true
-              valueFrom:
-                secretKeyRef:
-                  name: mongo-sec
-                  key: username
-            - name: MONGO_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mongo-sec
-                  key: password
+          image: <your-ecr-image>:latest
           ports:
-            - containerPort: 3000
-              livenessProbe:
-                httpGet:
-                  path: /healthz
-                  port: 3500
-                initialDelaySeconds: 2
-                periodSeconds: 5
-              readinessProbe:
-                httpGet:
-                  path: /ready
-                  port: 3500
-                initialDelaySeconds: 5
-                periodSeconds: 5
-                successThreshold: 1
-              startupProbe:
-                httpGet:
-                  path: /started
-                  port: 3500
-                initialDelaySeconds: 0
-                periodSeconds: 10
-                failureThreshold: 30
+            - containerPort: 3500
+
+          # ✅ probes should be here (NOT inside ports)
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3500
+            initialDelaySeconds: 30
+            periodSeconds: 10
+
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3500
+            initialDelaySeconds: 5
+            periodSeconds: 5
+
+          startupProbe:
+            httpGet:
+              path: /
+              port: 3500
+            failureThreshold: 30
+            periodSeconds: 10
