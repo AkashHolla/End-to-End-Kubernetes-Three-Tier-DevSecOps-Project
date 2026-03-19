@@ -1,0 +1,17 @@
+{
+    "yaml.schemas": {
+        "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.27.0-standalone/deployment-apps-v1.json": [
+            "**/deployment.yaml",
+            "**/deployment*.yaml"
+        ],
+        "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone/all.json": [
+            "/*.yaml",
+            "/*.yml",
+            "**/*.yaml",
+            "**/*.yml"
+        ],
+        "kubernetes://schema/v1@service": "file:///c%3A/Users/ap18/End-to-End-Kubernetes-Three-Tier-DevSecOps-Project/Kubernetes-Manifests-file/Backend/service.yaml",
+        "kubernetes://schema/v1@persistentvolume": "file:///c%3A/Users/ap18/End-to-End-Kubernetes-Three-Tier-DevSecOps-Project/Kubernetes-Manifests-file/Database/pv.yaml",
+        "kubernetes://schema/apps/v1@deployment": "file:///c%3A/Users/ap18/End-to-End-Kubernetes-Three-Tier-DevSecOps-Project/Kubernetes-Manifests-file/Backend/deployment.yaml"
+    }
+}
