@@ -46,3 +46,21 @@ spec:
 
           ports:
             - containerPort: 3500
+
+          # ✅ Readiness Probe (checks if app is ready to serve traffic)
+          readinessProbe:
+            tcpSocket:
+              port: 3500
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
+
+          # ✅ Liveness Probe (checks if app is alive, restarts if stuck)
+          livenessProbe:
+            tcpSocket:
+              port: 3500
+            initialDelaySeconds: 15
+            periodSeconds: 15
+            timeoutSeconds: 2
+            failureThreshold: 3
